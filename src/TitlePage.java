@@ -78,6 +78,12 @@ public class TitlePage implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) 
     {
-
+        if(e.getSource().equals(createNew))
+        {
+            frame.getContentPane().removeAll();
+            frame.repaint();
+            frame.revalidate();
+            new CyoaCreator(frame);
+        }
     }
 }

@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 public class Gui 
 {
+
     public Gui()
     {
         JFrame frame = new JFrame();
