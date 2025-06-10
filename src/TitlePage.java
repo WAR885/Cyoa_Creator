@@ -80,9 +80,7 @@ public class TitlePage implements ActionListener
     {
         if(e.getSource().equals(createNew))
         {
-            frame.getContentPane().removeAll();
-            frame.repaint();
-            frame.revalidate();
+            Gui.clear(frame);
             new CyoaCreator(frame);
         }
     }

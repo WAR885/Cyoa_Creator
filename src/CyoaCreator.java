@@ -22,7 +22,7 @@ public class CyoaCreator implements ActionListener
     JLabel validation;
     JTextField nameField;
     JButton create;
-    CyoaTree cyoa;
+    CyoaTree tree;
 
 
     public CyoaCreator(JFrame frame)
@@ -82,7 +82,9 @@ public class CyoaCreator implements ActionListener
             {
                 validation.setText("");
                 frame.setVisible(true);
-                cyoa = new CyoaTree(txt);
+                tree = new CyoaTree(txt);
+                Gui.clear(frame);
+                new TreeMenu(frame,tree);
             }
         }
     }
