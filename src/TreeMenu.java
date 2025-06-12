@@ -1,9 +1,10 @@
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -20,18 +21,24 @@ public class TreeMenu implements MouseListener
     JFrame frame;
     JLabel title;
     JPanel treePanel;
+    JPanel cardPanel;
     JTree graphicTree;
     JScrollPane scrollPane;
     JPopupMenu options;
     JMenuItem addNew;
     JMenuItem delete;
+    CardLayout cardLayout;
     CyoaTree treeInfo;
     CyoaNode root;
+    EditorCard cardViewer;
 
 
-    public TreeMenu(JFrame frame, CyoaTree tree)
+    public TreeMenu(JFrame frame, CyoaTree tree, JPanel cardPanel, CardLayout cardLayout, EditorCard cardViewer)
     {
+        this.cardLayout = cardLayout;
         this.frame = frame;
+        this.cardPanel = cardPanel;
+        this.cardViewer = cardViewer;
 
         treeInfo = tree;
         root = tree.getRoot();
@@ -64,28 +71,32 @@ public class TreeMenu implements MouseListener
         treePanel.add(title,BorderLayout.NORTH);
         treePanel.add(scrollPane,BorderLayout.WEST);
 
-        frame.add(treePanel);
-
         frame.setVisible(true);
      
-
+        cardPanel.add(treePanel);
     }
     
 
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) 
     {
+        TreePath path = graphicTree.getPathForLocation(e.getX(),e.getY());
+        CyoaNode currNode = null;
+        if(path != null)
+            currNode = treeInfo.findTreeNode((DefaultMutableTreeNode)path.getLastPathComponent());
         if(e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1)
         {
-            
+            cardViewer.switchToChoiceEditor(currNode);
         }
         else if(e.getButton() == MouseEvent.BUTTON3)
         {
-            TreePath path = graphicTree.getPathForLocation(e.getX(),e.getY());
             if(path != null)
             {
-                CyoaNode currNode = treeInfo.findTreeNode((DefaultMutableTreeNode)path.getLastPathComponent());
-                    options.show(e.getComponent(),e.getX(),e.getY());
+                options.show(e.getComponent(),e.getX(),e.getY());
+                if(currNode.equals(root))
+                    delete.setForeground(Color.GRAY);
+                else
+                    delete.setForeground(Color.BLACK);
             }
         }
     }

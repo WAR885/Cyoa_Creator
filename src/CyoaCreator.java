@@ -84,7 +84,7 @@ public class CyoaCreator implements ActionListener
                 frame.setVisible(true);
                 tree = new CyoaTree(txt);
                 Gui.clear(frame);
-                new TreeMenu(frame,tree);
+                new EditorCard(frame,tree);
             }
         }
     }

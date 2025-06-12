@@ -1,13 +1,17 @@
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -19,55 +23,95 @@ public class ChoiceEditor implements ActionListener
     JTextField choiceName;
     JTextArea choiceText;
 
+    JScrollPane pane;
+
     JButton acceptChanges;
     JButton goBack;
 
+    CardLayout cardLayout;
+
+    EditorCard cardViewer;
+
     JPanel mainPanel;
+    JPanel buttonPanel;
+    JPanel cardPanel;
 
     CyoaTree tree;
     CyoaNode currNode;
 
-    public ChoiceEditor(JFrame frame, CyoaTree tree, CyoaNode currNode)
+    public ChoiceEditor(JFrame frame, JPanel cardPanel, CyoaTree tree, CyoaNode currNode, CardLayout cardLayout, EditorCard cardViewer)
     {
+        this.cardViewer = cardViewer;
+        this.cardLayout = cardLayout;
         this.frame = frame;
         this.tree = tree;
         this.currNode = currNode;
+        this.cardPanel = cardPanel;
+
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
         mainPanel.setBorder(new EmptyBorder(50,50,50,50));
 
         choiceName = new JTextField();
+        choiceName.setText(currNode.getChoice());
         choiceName.setFont(new Font("Times New Roman",Font.PLAIN,30));
         choiceName.setMaximumSize(new Dimension(1000,100));
 
         choiceText = new JTextArea();
-        choiceText.setFont(new Font("Times New Roman",Font.PLAIN,10));
-        choiceText.setMaximumSize(new Dimension(1000,1000));
+        choiceText.setText(currNode.getText());
+        choiceText.setFont(new Font("Times New Roman",Font.PLAIN,20));
+        choiceText.setLineWrap(true);
+        choiceText.setWrapStyleWord(true);
+
+        pane = new JScrollPane(choiceText);
+        pane.setPreferredSize(new Dimension(500,500));
 
         acceptChanges = new JButton("Accept Changes");
-        acceptChanges.setFont(new Font("Times New Roman",Font.PLAIN,50));
-        acceptChanges.setMaximumSize(new Dimension(500,100));
+        acceptChanges.setFont(new Font("Times New Roman",Font.PLAIN,20));
+        acceptChanges.setMaximumSize(new Dimension(200,50));
         acceptChanges.addActionListener(this);
 
         goBack = new JButton("Cancel Changes");
-        goBack.setFont(new Font("Times New Roman",Font.PLAIN,50));
-        goBack.setMaximumSize(new Dimension(500,100));
+        goBack.setFont(new Font("Times New Roman",Font.PLAIN,20));
+        goBack.setMaximumSize(new Dimension(200,50));
         goBack.addActionListener(this);
 
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT,50,0));
+
         mainPanel.add(choiceName);
-        mainPanel.add(choiceText);
-        mainPanel.add(acceptChanges);
+        mainPanel.add(Box.createRigidArea(new Dimension(0,50)));
+        mainPanel.add(pane);
+        mainPanel.add(Box.createRigidArea(new Dimension(0,50)));
+        buttonPanel.add(acceptChanges);
         if(!currNode.isRoot())
         {
-            mainPanel.add(goBack);
+            buttonPanel.add(goBack);
         }
+        mainPanel.add(buttonPanel);
+        cardPanel.add(mainPanel);
+
+        frame.setVisible(true);
+    }
+
+    public void changeNode(CyoaNode newNode)
+    {
+        currNode = newNode;
+        choiceName.setText(currNode.getChoice());
+        choiceText.setText(currNode.getText());
+        cardLayout.next(cardPanel);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) 
     {
-        
+        if(e.getSource().equals(acceptChanges))
+        {
+            currNode.setChoice(choiceName.getText());
+            currNode.setText(choiceText.getText());
+            cardViewer.switchToTreeMenu();
+        }
     }
     
 }
