@@ -2,6 +2,7 @@ import java.util.Stack;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 public class CyoaTree 
 {
@@ -39,6 +40,28 @@ public class CyoaTree
 
     public CyoaNode findTreeNode(DefaultMutableTreeNode graphicNode)
     {
+        Stack<CyoaNode> nodes = new Stack<>();
+        nodes.add(root);
+        while(!nodes.empty())
+        {
+            CyoaNode currNode = nodes.peek();
+            if(graphicNode.equals(currNode.getGraphicNode()))
+                return currNode;
+            int length = currNode.getNextNodeLength();
+            nodes.pop();
+            for(int i = 0; i < length; i++)
+            {
+                nodes.push(currNode.getNextNode(i));
+            }
+        }
+        return null;
+    }
+
+    public CyoaNode findTreeNode(TreePath path)
+    {
+        if(path == null)
+            return null;
+        DefaultMutableTreeNode graphicNode = (DefaultMutableTreeNode)path.getLastPathComponent();
         Stack<CyoaNode> nodes = new Stack<>();
         nodes.add(root);
         while(!nodes.empty())

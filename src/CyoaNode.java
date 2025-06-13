@@ -78,23 +78,31 @@ public class CyoaNode
         return graphicNode;
     }
     
-    public void addNextNode()
+    public CyoaNode addNextNode()
     {
-        nextNodes.add(new CyoaNode(this,model));
+        CyoaNode newNode = new CyoaNode(this,model);
+        nextNodes.add(newNode);
+        model.insertNodeInto(newNode.getGraphicNode(), graphicNode, graphicNode.getChildCount());
+        return newNode;
     }
-    public void addNextNode(String choice, String text)
+    public CyoaNode addNextNode(String choice, String text)
     {
-        nextNodes.add(new CyoaNode(this,model,text,choice));
+        CyoaNode newNode = new CyoaNode(this,model,text,choice);
+        nextNodes.add(newNode);
+        model.insertNodeInto(newNode.getGraphicNode(), graphicNode, graphicNode.getChildCount());
+        return newNode;
     }
 
     public void removeNextNode(int index)
     {
         nextNodes.remove(index);
+        model.removeNodeFromParent(nextNodes.get(index).graphicNode);
     }
 
     public void removeNextNode(CyoaNode removedNode)
     {
         nextNodes.remove(removedNode);
+        model.removeNodeFromParent(removedNode.graphicNode);
     }
 
     public void setText(String text)
@@ -104,9 +112,14 @@ public class CyoaNode
 
     public void setChoice(String choice)
     {
-        this.choice = text;
+        this.choice = choice;
         graphicNode.setUserObject(choice);
         model.nodeChanged(graphicNode);
+    }
+
+    public void deleteNode()
+    {
+        prevNode.removeNextNode(this);
     }
 
     @Override

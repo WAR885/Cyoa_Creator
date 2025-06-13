@@ -1,5 +1,4 @@
 
-import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -28,25 +27,19 @@ public class ChoiceEditor implements ActionListener
     JButton acceptChanges;
     JButton goBack;
 
-    CardLayout cardLayout;
-
     EditorCard cardViewer;
 
     JPanel mainPanel;
     JPanel buttonPanel;
-    JPanel cardPanel;
 
-    CyoaTree tree;
     CyoaNode currNode;
 
-    public ChoiceEditor(JFrame frame, JPanel cardPanel, CyoaTree tree, CyoaNode currNode, CardLayout cardLayout, EditorCard cardViewer)
+
+    public ChoiceEditor(JFrame frame, JPanel cardPanel, CyoaTree tree, CyoaNode currNode, EditorCard cardViewer)
     {
         this.cardViewer = cardViewer;
-        this.cardLayout = cardLayout;
         this.frame = frame;
-        this.tree = tree;
         this.currNode = currNode;
-        this.cardPanel = cardPanel;
 
 
         mainPanel = new JPanel();
@@ -90,17 +83,19 @@ public class ChoiceEditor implements ActionListener
             buttonPanel.add(goBack);
         }
         mainPanel.add(buttonPanel);
-        cardPanel.add(mainPanel);
+        cardPanel.add(mainPanel, "Choice Editor");
 
         frame.setVisible(true);
     }
 
     public void changeNode(CyoaNode newNode)
     {
+        if(!buttonPanel.isAncestorOf(goBack))
+            buttonPanel.add(goBack);
         currNode = newNode;
         choiceName.setText(currNode.getChoice());
         choiceText.setText(currNode.getText());
-        cardLayout.next(cardPanel);
+        frame.setVisible(true);
     }
 
     @Override
@@ -110,6 +105,10 @@ public class ChoiceEditor implements ActionListener
         {
             currNode.setChoice(choiceName.getText());
             currNode.setText(choiceText.getText());
+            cardViewer.switchToTreeMenu();
+        }
+        else if(e.getSource().equals(goBack))
+        {
             cardViewer.switchToTreeMenu();
         }
     }

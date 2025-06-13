@@ -1,25 +1,24 @@
 import java.awt.CardLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class EditorCard 
 {
 
-    CyoaTree tree;
     JPanel cardPanel;
     JFrame frame;
     CardLayout cardLayout;
     ChoiceEditor choice;
-    TreeMenu treeMenu;
+    TreeMenu tree;
 
     public EditorCard(JFrame frame, CyoaTree tree)
     {
-        this.tree = tree;
         this.frame = frame;
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
-        this.choice = new ChoiceEditor(frame,cardPanel,tree,tree.getRoot(),cardLayout,this);
-        this.treeMenu = new TreeMenu(frame,tree,cardPanel,cardLayout,this);
+        this.choice = new ChoiceEditor(frame,cardPanel,tree,tree.getRoot(),this);
+        this.tree = new TreeMenu(frame,tree,cardPanel,this);
 
         frame.add(cardPanel);
         frame.setVisible(true);
@@ -27,13 +26,13 @@ public class EditorCard
 
     public void switchToTreeMenu()
     {
-        cardLayout.next(cardPanel);
+        cardLayout.show(cardPanel, "Tree Menu");
     }
 
     public void switchToChoiceEditor(CyoaNode currNode)
     {
         choice.changeNode(currNode);
-        cardLayout.next(cardPanel);
+        cardLayout.show(cardPanel,"Choice Editor");
         frame.setVisible(true);
     }
 
