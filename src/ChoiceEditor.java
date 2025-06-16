@@ -1,4 +1,5 @@
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -90,12 +91,23 @@ public class ChoiceEditor implements ActionListener
 
     public void changeNode(CyoaNode newNode)
     {
-        if(!buttonPanel.isAncestorOf(goBack))
+        if(!containsComponent(buttonPanel,goBack))
             buttonPanel.add(goBack);
         currNode = newNode;
         choiceName.setText(currNode.getChoice());
         choiceText.setText(currNode.getText());
         frame.setVisible(true);
+    }
+
+    private boolean containsComponent(JPanel panel, Component component)
+    {
+        Component[] components = panel.getComponents();
+        for(Component c : components)
+        {
+            if(component.equals(c))
+                return true;
+        }
+        return false;
     }
 
     @Override
