@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Objects;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -125,7 +124,7 @@ public class CyoaNode
     @Override
     public String toString()
     {
-        return String.format("%d|::[%s]|::%s",getNextNodeLength(),text,choice);
+        return String.format("%d|::%s|::%s",getNextNodeLength(),text,choice);
     }
 
     @Override
@@ -141,6 +140,6 @@ public class CyoaNode
     @Override
     public int hashCode()
     {
-        return Objects.hash(choice,text,graphicNode,model);
+        return Objects.hash(choice,text,nextNodes);
     }
 }

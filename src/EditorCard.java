@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +12,7 @@ public class EditorCard
     CardLayout cardLayout;
     ChoiceEditor choice;
     TreeMenu tree;
+    SaveInterfacer interfacer;
 
     public EditorCard(JFrame frame, CyoaTree tree)
     {
@@ -19,6 +21,20 @@ public class EditorCard
         cardPanel = new JPanel(cardLayout);
         this.choice = new ChoiceEditor(frame,cardPanel,tree,tree.getRoot(),this);
         this.tree = new TreeMenu(frame,tree,cardPanel,this);
+        this.interfacer = null;
+
+        frame.add(cardPanel);
+        frame.setVisible(true);
+    }
+
+    public EditorCard(JFrame frame, CyoaTree tree, File currFile)
+    {
+        this.frame = frame;
+        cardLayout = new CardLayout();
+        cardPanel = new JPanel(cardLayout);
+        this.choice = new ChoiceEditor(frame,cardPanel,tree,tree.getRoot(),this);
+        this.tree = new TreeMenu(frame,tree,cardPanel,this);
+        this.interfacer = new SaveInterfacer(currFile);
 
         frame.add(cardPanel);
         frame.setVisible(true);
@@ -34,6 +50,18 @@ public class EditorCard
         choice.changeNode(currNode);
         cardLayout.show(cardPanel,"Choice Editor");
         frame.setVisible(true);
+    }
+
+    public void saveWork(CyoaTree tree)
+    {
+        if(interfacer == null)
+        {
+            interfacer = new SaveInterfacer(tree);
+        }
+        else
+        {
+            interfacer.saveEditor();
+        }
     }
 
 

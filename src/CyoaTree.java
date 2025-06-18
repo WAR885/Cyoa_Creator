@@ -64,7 +64,6 @@ public class CyoaTree
         DefaultMutableTreeNode graphicNode = (DefaultMutableTreeNode)path.getLastPathComponent();
         Stack<CyoaNode> nodes = new Stack<>();
         nodes.add(root);
-        System.out.println("Run");
         while(!nodes.empty())
         {
             CyoaNode currNode = nodes.peek();
@@ -86,6 +85,7 @@ public class CyoaTree
         Stack<CyoaNode> nodes = new Stack<>();
         nodes.add(root);
         String totalText = "";
+        totalText += title + "\n";
         while(!nodes.empty())
         {
             CyoaNode currNode = nodes.peek();
@@ -99,4 +99,5 @@ public class CyoaTree
         }
         return totalText;
     }
+    
 }
