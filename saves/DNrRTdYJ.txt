@@ -1,0 +1,9 @@
+George's Famous Stew
+3|::George had a delicious stew but no one to give it to. He was very saddened by this lack of stew-giving ability.
+
+Who, exactly, will he give the stew to?|::The Stew
+0|::George gives his delicious stew to the baker who serves it to his customers along with his homemade bread. His restaurant gets five stars.|::The Baker
+0|::This person spills the stew on George, killing him instantly. The end.|::A Random Person
+2|::The manager eats the stew while partying with his friends. He enjoys the stew but later gets food poisoning and dies. his family sues George. What do you do?|::The Manager
+0|::You go out in a blaze of glory by killing the manager's family before dying yourself. The end.|::Kill his family
+0|::You accept prison time and spend the next 20 years in jail. The end.|::Accept prison time

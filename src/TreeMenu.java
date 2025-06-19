@@ -28,7 +28,7 @@ public class TreeMenu implements MouseListener, ActionListener
     JPanel buttonPanel;
     JTree graphicTree;
     JButton save;
-    JButton discard;
+    JButton goBack;
     JScrollPane scrollPane;
     JPopupMenu options;
     JMenuItem addNew;
@@ -53,17 +53,17 @@ public class TreeMenu implements MouseListener, ActionListener
         treePanel.setLayout(new BorderLayout());
 
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT,50,0));
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT,100,0));
 
         save = new JButton("Save Changes");
         save.setFont(new Font("Times New Roman",Font.PLAIN,20));
         save.setMaximumSize(new Dimension(200,50));
         save.addActionListener(this);
 
-        discard = new JButton("Discard Changes");
-        discard.setFont(new Font("Times New Roman",Font.PLAIN,20));
-        discard.setMaximumSize(new Dimension(200,50));
-        discard.addActionListener(this);
+        goBack = new JButton("Exit");
+        goBack.setFont(new Font("Times New Roman",Font.PLAIN,20));
+        goBack.setMaximumSize(new Dimension(200,50));
+        goBack.addActionListener(this);
 
         title = new JTextField();
         title.setText(treeInfo.getTitle());
@@ -92,7 +92,7 @@ public class TreeMenu implements MouseListener, ActionListener
         treePanel.add(scrollPane,BorderLayout.WEST);
 
         buttonPanel.add(save);
-        buttonPanel.add(discard);
+        buttonPanel.add(goBack);
 
         options.add(addNew);
         options.add(delete);
@@ -140,18 +140,23 @@ public class TreeMenu implements MouseListener, ActionListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(edit))
-        {
-            cardViewer.switchToChoiceEditor(currNode);
-        }
         if(e.getSource().equals(save))
         {
             treeInfo.setTitle(title.getText());
             cardViewer.saveWork(treeInfo);
         }
-        if(currNode != null)
+        else if(e.getSource().equals(goBack))
         {
-            if(e.getSource().equals(addNew))
+            Gui.clear(frame);
+            new TitlePage(frame);
+        }
+        else if(currNode != null)
+        {
+            if(e.getSource().equals(edit))
+            {
+                cardViewer.switchToChoiceEditor(currNode);
+            }
+            else if(e.getSource().equals(addNew))
             {
                 CyoaNode addedNode = currNode.addNextNode();
                 cardViewer.switchToChoiceEditor(addedNode);
