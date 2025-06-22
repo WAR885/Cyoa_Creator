@@ -40,6 +40,20 @@ public class EditorCard
         frame.setVisible(true);
     }
 
+    public EditorCard(JFrame frame, SaveInterfacer interfacer)
+    {
+        this.frame = frame;
+        cardLayout = new CardLayout();
+        cardPanel = new JPanel(cardLayout);
+        this.choice = new ChoiceEditor(frame,cardPanel,interfacer.getTree(),interfacer.getTree().getRoot(),this);
+        this.tree = new TreeMenu(frame,interfacer.getTree(),cardPanel,this);
+        this.interfacer = interfacer;
+
+        frame.add(cardPanel);
+        frame.setVisible(true);
+        switchToTreeMenu();
+    }
+
     public void switchToTreeMenu()
     {
         cardLayout.show(cardPanel, "Tree Menu");

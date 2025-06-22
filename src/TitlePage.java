@@ -83,5 +83,10 @@ public class TitlePage implements ActionListener
             Gui.clear(frame);
             new CyoaCreator(frame);
         }
+        else if(e.getSource().equals(editOld))
+        {
+            Gui.clear(frame);
+            new SaveFetcher(frame);
+        }
     }
 }

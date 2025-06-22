@@ -67,17 +67,29 @@ public class SaveInterfacer
     {
         try 
         {
-            String line = reader.readLine();
-            if(line != null)
+            String line = "";
+            int count = 0;
+            while(count < 2)
             {
-                String[] arr = readFileLine(line);
-                int numChildren = Integer.parseInt(arr[0]);
-                for(int i = 0; i < numChildren; i++)
+                String tempStr = reader.readLine();
+                int index = 0;
+                while(tempStr.indexOf("|::",index) != -1)
                 {
-                    currNode.setText(arr[1]);
-                    currNode.setChoice(arr[0]);
-                    createChildren(currNode.addNextNode(),reader);
+                    index += tempStr.indexOf("|::",index) + 3;
+                    count++;
                 }
+                if(count != 2)
+                    line += tempStr + "\n";
+                else
+                    line += tempStr;
+            }
+            String[] arr = readFileLine(line);
+            int numChildren = Integer.parseInt(arr[0]);
+            currNode.setText(arr[1]);
+            currNode.setChoice(arr[2]);
+            for(int i = 0; i < numChildren; i++)
+            {
+                createChildren(currNode.addNextNode(),reader);
             }
         } 
         catch (IOException e) 
@@ -119,9 +131,9 @@ public class SaveInterfacer
         return newFile;
     }
     
-    public void saveDeletor()
+    public static void saveDeletor(File file)
     {
-        boolean deleted = currFile.delete();
+        boolean deleted = file.delete();
         if(!deleted)
         {
             System.out.println("Couldn't successfully delete");
