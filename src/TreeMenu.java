@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -147,8 +148,18 @@ public class TreeMenu implements MouseListener, ActionListener
         }
         else if(e.getSource().equals(goBack))
         {
-            Gui.clear(frame);
-            new TitlePage(frame);
+            int result = JOptionPane.showConfirmDialog(frame,"Do you want to save your work before you quit?","Save Work?",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+            if(result == JOptionPane.YES_OPTION)
+            {
+                cardViewer.saveWork(treeInfo);
+                Gui.clear(frame);
+                new TitlePage(frame);
+            }
+            else
+            {
+                Gui.clear(frame);
+                new TitlePage(frame);
+            }
         }
         else if(currNode != null)
         {

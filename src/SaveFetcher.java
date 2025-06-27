@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -41,11 +41,13 @@ public class SaveFetcher implements ActionListener,MouseListener
     JButton useSave;
     JButton goBack;
     JButton delete;
+    boolean isEditable;
 
 
-    public SaveFetcher(JFrame frame)
+    public SaveFetcher(JFrame frame, boolean isEditable)
     {
         this.frame = frame;
+        this.isEditable = isEditable;
 
         String directoryPath = System.getProperty("user.dir") + File.separator + "saves";
         File folder = new File(directoryPath);
@@ -183,9 +185,22 @@ public class SaveFetcher implements ActionListener,MouseListener
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(useSave))
         {
-            SaveInterfacer interfacer = new SaveInterfacer(selectedSave);
-            Gui.clear(frame);
-            new EditorCard(frame, interfacer);
+            if(selectedSave == null || !selectedSave.exists())
+            {
+                return;
+            }
+            if(isEditable)
+            {
+                SaveInterfacer interfacer = new SaveInterfacer(selectedSave);
+                Gui.clear(frame);
+                new EditorCard(frame, interfacer);
+            }
+            else
+            {
+                SaveInterfacer interfacer = new SaveInterfacer(selectedSave);
+                Gui.clear(frame);
+                new ReaderPage(frame, interfacer.convertToCyoa());
+            }
         }
         else if(e.getSource().equals(goBack))
         {
@@ -194,15 +209,23 @@ public class SaveFetcher implements ActionListener,MouseListener
         }
         else if(e.getSource().equals(delete))
         {
+            if(selectedSave == null || !selectedSave.exists())
+            {
+                return;
+            }
             for(int i = 0; i < saves.size(); i++)
             {
                 if(selectedSave.equals(saves.get(i)))
                 {
-                    savePanel.remove(savePanels.get(i));
-                    savePanels.remove(i);
-                    saveDates.remove(i);
-                    saveNames.remove(i);
-                    saves.remove(i);
+                    int result = JOptionPane.showConfirmDialog(frame,"This will permanently delete this project. Are you sure you want to delete it?","Warning",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+                    if(result == JOptionPane.YES_OPTION)
+                    {
+                        savePanel.remove(savePanels.get(i));
+                        savePanels.remove(i);
+                        saveDates.remove(i);
+                        saveNames.remove(i);
+                        saves.remove(i);
+                    }
                 }
             }
             SaveInterfacer.saveDeletor(selectedSave);

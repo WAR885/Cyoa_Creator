@@ -20,7 +20,6 @@ public class TitlePage implements ActionListener
     JButton createNew;
     JButton editOld;
     JButton readOld;
-    JButton settings;
 
     public TitlePage(JFrame frame)
     {
@@ -54,11 +53,6 @@ public class TitlePage implements ActionListener
         editOld.setMaximumSize(new Dimension(500,100));
         editOld.addActionListener(this);
 
-        settings = new JButton();
-        settings.setText("Settings");
-        settings.setFont(new Font("Times New Roman",Font.PLAIN,50));
-        settings.setMaximumSize(new Dimension(500,100));
-        settings.addActionListener(this);
 
         panel.add(title);
         panel.add(Box.createRigidArea(new Dimension(0,125)));
@@ -67,8 +61,6 @@ public class TitlePage implements ActionListener
         panel.add(readOld);
         panel.add(Box.createRigidArea(new Dimension(0,75)));
         panel.add(editOld);
-        panel.add(Box.createRigidArea(new Dimension(0,75)));
-        panel.add(settings);
         frame.add(panel);
 
 
@@ -86,7 +78,13 @@ public class TitlePage implements ActionListener
         else if(e.getSource().equals(editOld))
         {
             Gui.clear(frame);
-            new SaveFetcher(frame);
+            new SaveFetcher(frame,true);
+        }
+        else if(e.getSource().equals(readOld))
+        {
+            Gui.clear(frame);
+            new SaveFetcher(frame, false);
+            
         }
     }
 }
