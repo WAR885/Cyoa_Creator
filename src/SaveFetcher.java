@@ -226,6 +226,10 @@ public class SaveFetcher implements ActionListener,MouseListener
                         saveNames.remove(i);
                         saves.remove(i);
                     }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
             SaveInterfacer.saveDeletor(selectedSave);
